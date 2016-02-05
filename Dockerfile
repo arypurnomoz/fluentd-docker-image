@@ -11,7 +11,9 @@ RUN apk --no-cache --update add \
                             ruby \
                             ruby-irb \
                             ruby-dev && \
-    echo 'gem: --no-document' >> /etc/gemrc && \
+    echo 'gem: --no-document' >> /etc/gemrc
+    
+RUN \
     gem install fluentd -v 0.12.20 && \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/* \
@@ -19,8 +21,9 @@ RUN apk --no-cache --update add \
     chown -R fluent:fluent /home/fluent && \
     mkdir -p /fluentd/etc /fluentd/log && \
     chown -R fluent:fluent /fluentd && \
-    fluent-gem install fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch &&
-    echo "gem: --user-install --no-document" >> ~/.gemrc
+    fluent-gem install fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch
+    
+RUN echo "gem: --user-install --no-document" >> ~/.gemrc
 
 USER fluent
 WORKDIR /home/fluent
